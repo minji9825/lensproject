@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwww.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>재고 추가</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/navbarstyle.css" />
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" href="/css/bootstrapstyle.css" />
+<style>
+ .divTable {
+         
+         position: relative;
+         width: 253px;
+         margin-left: 15%;
+         display: grid;
+      }
+
+      h2 {
+         margin-top: 30px;
+         font-size: 1.5rem;
+         font-weight: bold;
+         color: #000000;
+         margin-bottom: 30px;
+         text-align: left;
+      }
+      
+
+
+      .stock {
+         display: -webkit-inline-box;
+      }
+
+      .stock2 {
+         display: -webkit-inline-box;
+
+      }
+
+      .stock3 {
+         display: -webkit-inline-box;
+         width: 100%;
+      }
+
+      .Cell1 {
+         border-bottom: 1px solid black;
+         width: 100%;
+         background-color: #f8d7da;
+         padding: 10px;
+         font-weight: bold;
+         height:42px;
+         
+      }
+
+      .Cell2 {
+         border-bottom: 1px solid black;
+         width: 100%;
+         background-color: #f8d7da;
+         padding: 10px;
+         font-weight: bold;
+         height:42px;
+         
+      }
+
+      .Cell3 {
+         border-bottom: 1px solid black;
+         width: 100%;
+         background-color: #f8d7da;
+         padding: 10px;
+         font-weight: bold;
+         height:42px;
+
+      }
+
+      .Cell4 {
+         border-bottom: 1px solid black;
+         width: 100%;
+         background-color: #f8d7da;
+         padding: 10px;
+         font-weight: bold;
+         height:42px;
+      }
+
+      .Cell5 {
+         border-bottom: 1px solid black;
+         width: 100%;
+         background-color: #f8d7da;
+         padding: 10px;
+         font-weight: bold;
+         height:42px;
+      }
+
+      .Cell6 {
+        
+         border-top: 1px solid #ccc;
+         padding: 10px;
+         height:45px;
+         width: 100%;
+         
+      }
+
+      .Cell7 {
+         
+         border-top: 1px solid #ccc;
+         padding: 10px;
+         height:45px;
+         width: 100%;
+         
+      }
+
+      .Cell8 {
+      
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+         padding: 10px;
+         height:45px;
+         width: 100%;
+         
+      }
+
+      .Cell9 {
+         
+         border-top: 1px solid #ccc;
+         border-left: 1px solid #ccc;
+         padding: 10px;
+         height:45px;
+         width: 100%;
+      }
+
+      .Cell10 {
+      
+         border-top: 1px solid #ccc;
+         border-left: 1px solid #ccc;
+         padding: 10px;
+         height:45px;
+         width: 100%;
+      }
+</style>
+
+
+
+</head>
+
+<body>
+	<nav th:replace="navbar_admin :: navbarFragment"></nav>
+	<nav th:replace="navbar_statelog2 :: navbarFragment"></nav>
+
+	<div class="divTable" align="center">
+		<h2>재고 확인</h2>
+		<div class="stock">
+			<div class="Cell1">가게이름</div>
+			<div class="Cell2">제품이름</div>
+			<div class="Cell3">제품옵션</div>
+			<div class="Cell4">제품가격</div>
+			<div class="Cell5">제품재고</div>
+		</div>
+		<div class="stock2" th:each="product : ${a}">
+			<div class="Cell6" th:text="${product.store.storeName}"></div>
+			<div class=" Cell7" th:text="${product.productName}"></div>
+			<div class="stock3" th:each="options : ${product.options}">
+				<div class="Cell8" th:text="${options.productOption}"></div>
+				<div class="Cell9" th:text="${options.productPrice}"></div>
+				<div class="Cell10" th:text="${options.storeStock}"></div>
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+</body>
+
+</html>

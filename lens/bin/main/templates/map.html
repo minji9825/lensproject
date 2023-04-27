@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwww.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>찾아오시는 길</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/navbarstyle.css" />
+    <link rel="stylesheet" type="text/css" href="/css/homestyle.css" />
+    <style>
+
+        .customoverlay {
+            position: relative;
+            bottom: 50px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            border-bottom: 2px solid #ddd;
+            float: left;
+        }
+
+        .customoverlay:nth-of-type(n) {
+            border: 0;
+            box-shadow: 0px 1px 2px #888;
+        }
+
+        .customoverlay a {
+            display: block;
+            text-decoration: none;
+            color: #111;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            overflow: hidden;
+            background: #d95050;
+            background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
+        }
+
+        .customoverlay .title {
+            display: block;
+            text-align: center;
+            background: #fff;
+            margin-right: 35px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .customoverlay:after {
+            content: '';
+            position: absolute;
+            margin-left: -12px;
+            left: 50%;
+            bottom: -12px;
+            width: 22px;
+            height: 12px;
+            background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+        }
+
+        /* 등록하기 버튼 */
+        .btn-primary {
+            background-color: #f8d7da;
+            border-color: #f5c2c7;
+            margin-top: 30px;
+            font-size: 15px;
+        }
+
+        .btn-primary a {
+            color: #842029;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #f5c2c7;
+            border-color: #f5c2c7;
+            transition: 0.3s;
+        }
+
+        h1{
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 30px;
+            margin-top: 30px;
+          text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+   <div class="container">
+      <nav th:replace="navbar_logo :: navbarFragment"></nav>
+      <nav th:replace="navbar_statelog :: navbarFragment"></nav>
+      <nav th:replace="navbar_product :: navbarFragment"></nav>
+       <h1>찾아오시는 길</h1>
+       <center><div id="map" style="width:700px; height:500px;">
+      </div></center>
+    </div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bf689acd518ad60665a49080686a8e28">
+    </script>
+    <script>
+
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(35.179774, 129.075024), // 지도의 중심좌표
+                level: 9 // 지도의 확대 레벨
+            };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 마커가 표시될 위치입니다 
+        var markerPosition = new kakao.maps.LatLng(35.8755582, 128.6053956);
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        //marker.setMap(map);
+
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+            content: "<div style='position: absolute; left: 0px; top: 0px;'><div style='width:140px;padding:1px;text-align:center;'>칠성종합시장</div></div>"
+        });
+
+        // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+        //infowindow.open(map, marker); 
+
+        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png'; // 마커이미지 주소
+        imageSize = new kakao.maps.Size(34, 36); // 마커이미지의 크기
+        imageOption = {
+            offset: new kakao.maps.Point(17, 36)
+        }; // 마커의 좌표와 일치시킬 이미지 안에서의 좌표설정
+
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        
+        var arr = new Array();
+       
+        arr[0] = ["덕천점", 35.211484, 129.019823];
+        arr[1] = ["광안점", 35.158283, 129.109443];
+        arr[2] = ["서면점", 35.162731, 129.053008];
+        arr[3] = ["동래점", 35.196252, 129.093803];
+        arr[4] = ["남포점", 35.097407, 129.031676]; 
+
+        var markerTmp; // 마커
+        var customOverlay; // 오버레이
+        var contentStr;
+
+        for (var i = 0; i < arr.length; i++) {
+            markerTmp = new daum.maps.Marker({
+                position: new daum.maps.LatLng(arr[i][1], arr[i][2]),
+                title: arr[i][0],
+                image: markerImage,
+                map: map
+            });
+
+            contentStr = "<div class='customoverlay'><a href='https://map.kakao.com/link/map/" + arr[i][4] +
+                "' target='_blank'><span class='title'>" + arr[i][0] + "</span></a></div>";
+
+            customOverlay = new kakao.maps.CustomOverlay({
+                map: map,
+                position: new daum.maps.LatLng(arr[i][1], arr[i][2]),
+                content: contentStr,
+                yAnchor: 1
+            });
+        }
+
+
+        // 지도 타입 변경 컨트롤을 생성한다
+        var mapTypeControl = new kakao.maps.MapTypeControl();
+
+        // 지도의 상단 우측에 지도 타입 변경 컨트롤을 추가한다
+        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+        // 지도에 확대 축소 컨트롤을 생성한다
+        var zoomControl = new kakao.maps.ZoomControl();
+
+        // 지도의 우측에 확대 축소 컨트롤을 추가한다
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+        // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+        // marker.setMap(null);
+        
+    
+    </script>
+</body>
+
+</html>

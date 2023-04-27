@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://wwww.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>관리자 시스템</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/navbarstyle.css" />
+	<style>
+		@charset "UTF-8";
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background-color: #ffff;
+			font-family: 'Poppins', sans-serif;
+		}
+
+		.container {
+			position: relative;
+		}
+
+		.admintitle hr {
+			margin-top: 40px;
+			margin-bottom: 40px;
+		}
+
+		/* 버튼 */
+		.admin_btn ul a {
+			background: #f8d7da;
+			border: 2px solid #f5c2c7;
+			border-radius: 25px;
+			display: block;
+			margin: 40px;
+			padding: 20px;
+			width: 180px;
+			font-size: 15px;
+			color: #343a40;
+			font-weight: bold;
+			text-decoration: none;
+			text-align: center;
+
+		}
+
+		.admin_btn ul a:hover {
+			background-color: #f5c2c7;
+			transition: 0.3s;
+			color: #ffff;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<nav th:replace="navbar_logo :: navbarFragment"></nav>
+		<div class="admintitle" align="center">
+			<hr>
+			<nav th:replace="navbar_admin :: navbarFragment"></nav>
+			<hr>
+		</div>
+		<div class="admin_btn" align="center">
+			<div>
+				<ul>
+					<a th:href="@{/member/admin/store}">매장 등록</a>
+				</ul>
+				<ul>
+					<a th:href="@{/member/admin/maker}">메이커 등록</a>
+				</ul>
+				<ul>
+					<a th:href="@{/member/admin/product}">제품 등록</a>
+				</ul>
+				<ul>
+					<a th:href="@{/member/admin/create/manager}">관리자 가입</a>
+				</ul>
+				<ul>
+					<a th:href="@{/member/admin/reservation}">관리자 예약 내역</a>
+				</ul>
+				<ul>
+					<a th:href="@{/member/admin/options}">재고 관리</a>
+				</ul>
+			</div>
+		</div>
+	</div> <!-- /container -->
+</body>
+
+</html>
